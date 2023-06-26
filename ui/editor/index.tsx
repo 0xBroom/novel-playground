@@ -129,11 +129,37 @@ export default function Editor() {
 
   // Hydrate the editor with the content from localStorage.
   useEffect(() => {
-    if (editor && content && !hydrated) {
+    if (editor && (content || !hydrated)) {
       editor.commands.setContent(content);
       setHydrated(true);
     }
   }, [editor, content, hydrated]);
+
+  const handleDownloadJSON = () => {
+    const json = editor.getJSON();
+    const jsonStr = JSON.stringify(json);
+    const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(jsonStr);
+    const link = document.createElement("a");
+    link.href = dataUri;
+    link.download = "editor_content.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleImportJSON = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const fileContent = await file.text();
+      const parsedJSON = JSON.parse(fileContent);
+      setContent(parsedJSON);
+      setHydrated(false); // Reset the hydrated state to force editor hydration
+    } catch (error) {
+      console.error('Error importing JSON:', error);
+    }
+  };
 
   return (
     <div
@@ -142,8 +168,24 @@ export default function Editor() {
       }}
       className="relative min-h-[500px] w-full max-w-screen-lg border-stone-200 p-12 px-8 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:px-12 sm:shadow-lg"
     >
-      <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
-        {saveStatus}
+      <div className="flex justify-between items-center mb-5">
+        <div className="rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
+          {saveStatus}
+        </div>
+        <div>
+          <button
+            className="mr-4 rounded-lg bg-stone-200  hover:bg-stone-300 px-2 py-1 text-sm text-black"
+            onClick={handleDownloadJSON}
+          >
+            Download as JSON
+          </button>
+          <button
+            className="rounded-lg bg-stone-200 hover:bg-stone-300 px-2 py-1 text-sm text-black"
+          >
+            <input type="file" accept=".json" onChange={handleImportJSON} className="hidden" id="importJSONInput" />
+            <label htmlFor="importJSONInput">Import JSON</label>
+          </button>
+        </div>
       </div>
       {editor && <EditorBubbleMenu editor={editor} />}
       <EditorContent editor={editor} />
