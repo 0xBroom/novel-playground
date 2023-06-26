@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Metadata } from "next";
 import Toaster from "./toaster";
 import { ReactNode } from "react";
+import { ClerkProvider } from '@clerk/nextjs'
 
 const title =
   "Novel – Notion-style WYSIWYG editor with AI-powered autocompletions";
@@ -32,10 +33,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <Toaster />
-      <body className={cx(cal.variable, inter.variable)}>{children}</body>
-      <Analytics />
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <Toaster />
+        <body className={cx(cal.variable, inter.variable)}>{children}</body>
+        <Analytics />
+      </html>
+    </ClerkProvider>
   );
 }
