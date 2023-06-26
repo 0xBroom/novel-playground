@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { ClerkProvider } from '@clerk/nextjs'
 
 const title =
-  "Novel – Notion-style WYSIWYG editor with AI-powered autocompletions";
+  "Novel";
 const description =
   "Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions. Built with Tiptap, OpenAI, and Vercel AI SDK.";
 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title,
     description,
     card: "summary_large_image",
-    creator: "@steventey",
+    creator: "@0xbroom",
   },
   metadataBase: new URL("https://novel.sh"),
   themeColor: "#ffffff",
