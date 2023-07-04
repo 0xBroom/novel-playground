@@ -1,3 +1,6 @@
+
+# ⚠️ This is a copy of the original [Novel repository](https://github.com/steven-tey/novel) that I use as playground. You can check my work on this tool [here](https://novel-chi-dun.vercel.app/) (ask me to whitelist) ⚠️
+
 <a href="https://novel.sh">
   <img alt="Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions." src="/app/opengraph-image.png">
   <h1 align="center">Novel</h1>
